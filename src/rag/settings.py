@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings
 
 
@@ -9,7 +9,10 @@ class QdrantSettings(BaseSettings):
     Settings for the Qdrant service.
     """
 
-    collection_name: str = Field("colpali", validation_alias="qdrant_collection_name")
+    collection_name: str = Field(
+        "colpali",
+        validation_alias=AliasChoices("qdrant_collection_name", "collection_name"),
+    )
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str
 
