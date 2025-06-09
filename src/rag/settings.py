@@ -1,6 +1,6 @@
-import os
 from functools import lru_cache
 
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
@@ -9,11 +9,9 @@ class QdrantSettings(BaseSettings):
     Settings for the Qdrant service.
     """
 
-    collection_name: str = os.environ.get(
-        "QDRANT_COLLECTION_NAME", "default_collection"
-    )
-    qdrant_url: str = os.environ.get("QDRANT_URL", "http://localhost:6333")
-    qdrant_api_key: str = os.environ.get("QDRANT_API_KEY", "")
+    collection_name: str = Field("colpali", validation_alias="qdrant_collection_name")
+    qdrant_url: str = "http://localhost:6333"
+    qdrant_api_key: str
 
 
 class ColpaliSettings(BaseSettings):
@@ -29,8 +27,8 @@ class SupabaseSettings(BaseSettings):
     Settings for the Supabase service.
     """
 
-    supabase_url: str = os.environ.get("SUPABASE_URL", "")
-    supabase_key: str = os.environ.get("SUPABASE_KEY", "")
+    supabase_url: str
+    supabase_key: str
     bucket: str = "colpali"
 
 
@@ -39,7 +37,7 @@ class OpenRouterSettings(BaseSettings):
     Settings for the OpenRouter service.
     """
 
-    openrouter_api_key: str = os.environ.get("OPENROUTER_API_KEY", "")
+    openrouter_api_key: str
     openrouter_model: str = "openrouter/colpali-llama-2-70b-chat-v1"
 
 
