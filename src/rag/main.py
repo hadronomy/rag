@@ -1,5 +1,6 @@
-from settings import get_settings
 from typer import Typer
+
+from .settings import get_settings
 
 cli = Typer(name="rag", no_args_is_help=True)
 
