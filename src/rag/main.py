@@ -9,7 +9,8 @@ app = Typer(name="rag", no_args_is_help=True)
 def start():
     """Start the RAG server."""
     settings = get_settings()
-    print(f"Starting RAG server with settings: {settings}")
+    print("Starting RAG server with settings:")
+    print(settings.model_dump())
     print("Hello from rag!")
 
 
