@@ -37,7 +37,7 @@ class QdrantSettings(BaseCommonSettings):
 
     collection_name: str = "colpali"
     qdrant_url: str = "http://localhost:6333"
-    qdrant_api_key: str
+    qdrant_api_key: str | None = None
 
 
 class ColpaliSettings(BaseCommonSettings):
@@ -64,7 +64,8 @@ class OpenRouterSettings(BaseCommonSettings):
     """
 
     openrouter_api_key: str
-    openrouter_model: str = "openrouter/colpali-llama-2-70b-chat-v1"
+    openrouter_url: str = "https://api.openrouter.ai/v1"
+    openrouter_model: str = "google/gemini-2.0-flash-001"
 
 
 class Settings(BaseCommonSettings):

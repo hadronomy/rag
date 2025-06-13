@@ -1,3 +1,2 @@
 [tools]
-"pipx:fastapi" = { version = "latest", standard = "" }
 uv = "latest"
