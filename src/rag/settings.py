@@ -48,14 +48,14 @@ class ColpaliSettings(BaseCommonSettings):
     model_name: str = "vidore/colqwen2.5-v0.2"
 
 
-class SupabaseSettings(BaseCommonSettings):
+class ObjectStorageSettings(BaseCommonSettings):
     """
-    Settings for the Supabase service.
+    Settings for the Object Storage service.
     """
 
-    supabase_url: str
-    supabase_key: str
-    bucket: str = "colpali"
+    endpoint_url: str
+    access_key: str
+    secret_access_key: str
 
 
 class OpenRouterSettings(BaseCommonSettings):
@@ -77,11 +77,12 @@ class Settings(BaseCommonSettings):
         env_file=find_env_file(),
         env_file_encoding="utf-8",
         extra="ignore",
+        env_nested_delimiter="__",
     )
 
     qdrant: QdrantSettings = Field(default_factory=QdrantSettings)
     colpali: ColpaliSettings = Field(default_factory=ColpaliSettings)
-    supabase: SupabaseSettings = Field(default_factory=SupabaseSettings)
+    object_storage: ObjectStorageSettings = Field(default_factory=ObjectStorageSettings)
     openrouter: OpenRouterSettings = Field(default_factory=OpenRouterSettings)
 
 

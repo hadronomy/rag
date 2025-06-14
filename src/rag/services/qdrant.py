@@ -16,6 +16,8 @@ async def create_collection():
     """
     settings = get_settings()
 
+    logger.info(settings)
+
     qdrant_client = AsyncQdrantClient(
         url=settings.qdrant.qdrant_url,
         api_key=settings.qdrant.qdrant_api_key,
