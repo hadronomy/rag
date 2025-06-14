@@ -7,21 +7,21 @@ from tenacity import (
     wait_exponential,
 )
 
-from rag.settings import get_settings
+from rag.settings import Settings, get_settings
 
 
-async def create_collection():
+def create_qdrant_client(settings: Settings) -> AsyncQdrantClient:
+    return AsyncQdrantClient(
+        url=settings.qdrant.qdrant_url,
+        api_key=settings.qdrant.qdrant_api_key,
+    )
+
+
+async def create_collection(qdrant_client: AsyncQdrantClient):
     """
     Create a **Qdrant** collection if it does not exist.
     """
     settings = get_settings()
-
-    logger.info(settings)
-
-    qdrant_client = AsyncQdrantClient(
-        url=settings.qdrant.qdrant_url,
-        api_key=settings.qdrant.qdrant_api_key,
-    )
 
     collection_name = settings.qdrant.collection_name
 
