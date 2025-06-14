@@ -2,6 +2,8 @@ import torch
 from colpali_engine.models import ColQwen2_5, ColQwen2_5_Processor
 from transformers.utils.import_utils import is_flash_attn_2_available
 
+from ..utils import cleanup_torch_resources, setup_multiprocessing
+
 
 class ColQwen2_5Loader:
     """
@@ -23,18 +25,44 @@ class ColQwen2_5Loader:
         self._attn_implementation = (
             "flash_attention_2" if is_flash_attn_2_available() else None
         )
+        self._model = None
+        self._processor = None
+
+    def __enter__(self):
+        """Context manager entry."""
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit with proper cleanup."""
+        self.cleanup()
+
+    def cleanup(self):
+        """Clean up resources to prevent memory leaks."""
+        if self._model is not None:
+            del self._model
+            self._model = None
+
+        if self._processor is not None:
+            del self._processor
+            self._processor = None
+
+        # Use the utility function for cleanup
+        cleanup_torch_resources()
 
     def load(self):
         """
         Load the ColQwen2.5 model and processor.
         """
+        # Setup multiprocessing to prevent semaphore issues
+        setup_multiprocessing()
+
         if is_flash_attn_2_available():
             torch.backends.cuda.matmul.allow_tf32 = True
             torch.backends.cudnn.allow_tf32 = True
 
-        model = self.load_model()
-        processor = self.load_processor()
-        return model, processor
+        self._model = self.load_model()
+        self._processor = self.load_processor()
+        return self._model, self._processor
 
     def load_model(self) -> ColQwen2_5:
         model = ColQwen2_5.from_pretrained(

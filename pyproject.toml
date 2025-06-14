@@ -5,12 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "boto3>=1.38.36",
-    "botocore>=1.38.36",
+    "aiobotocore>=2.23.0",
     "colpali-engine>=0.3.10",
     "fastapi[standard]>=0.115.12",
     "loguru>=0.7.3",
     "pydantic>=2.11.5",
+    "pydantic-ai>=0.2.18",
     "pydantic-settings>=2.9.1",
     "qdrant-client>=1.14.2",
     "tenacity>=9.1.2",

@@ -1,6 +1,10 @@
 from typer import Typer
 
 from .settings import get_settings
+from .utils import setup_multiprocessing
+
+# Setup multiprocessing early to prevent semaphore leaks
+setup_multiprocessing()
 
 cli = Typer(name="rag", no_args_is_help=True)
 
