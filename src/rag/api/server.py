@@ -15,6 +15,8 @@ from rag.instrumentation import instrument_app, setup_telemetry
 from .auth import api_key_header
 from .lifespan import lifespan
 
+tracer, meter = setup_telemetry()
+
 app = FastAPI(
     title="RAG API",
     description="API for Retrieval-Augmented Generation (RAG) with Qdrant",
@@ -22,7 +24,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-tracer, meter = setup_telemetry()
 instrument_app(app)
 
 app.add_middleware(
@@ -77,4 +78,5 @@ async def read_root(
     qdrant_client: Annotated[AsyncQdrantClient, Depends(get_qdrant_client)],
     api_key_header: str = Security(api_key_header),
 ):
+    logger.info("Root endpoint accessed")
     return {"message": "Welcome to the RAG API!"}
